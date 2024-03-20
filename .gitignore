@@ -1,0 +1,11 @@
+# Directories
+.vs/
+.idea/
+
+Binaries/
+Intermediate/
+
+# Files
+*.user
+*.vcxproj*
+*.sln
