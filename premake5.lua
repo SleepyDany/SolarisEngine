@@ -13,8 +13,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -------
 project "Solaris"
     location "Solaris"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "On"
 
     targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
     objdir ("Intermediate/" .. outputdir .. "/%{prj.name}")
@@ -31,21 +33,15 @@ project "Solaris"
         "Solaris/ThirdParty/spdlog/include"
     }
 
-    postbuildcommands
-    {
-        "IF NOT EXIST %[Binaries/" .. outputdir .. "/Playground/] mkdir %[Binaries/" .. outputdir .. "/Playground/]",
-        "{COPYFILE} %{cfg.buildtarget.relpath} %[Binaries/" .. outputdir .. "/Playground/]"
-    }
-
     filter "system:windows"
-		cppdialect "C++20"
-        staticruntime "On"
         systemversion("latest")
 
         defines
         {
             "SLR_PLATFORM_WINDOWS",
             "SLR_BUILD_DLL",
+            -- for dynamic linking .dll and make prj SharedLib, etc
+            -- "SLR_DYNAMIC_LINK"
             
             -- silence warnings
             "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
@@ -69,6 +65,8 @@ project "Playground"
     location "Playground"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "On"
     
     targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
     objdir ("Intermediate/" .. outputdir .. "/%{prj.name}")
@@ -100,8 +98,6 @@ project "Playground"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "On"
 		systemversion("latest")
 
     filter "configurations:Debug"
