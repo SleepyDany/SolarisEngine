@@ -27,7 +27,8 @@ project "Solaris"
 
     includedirs
     {
-        "Source/"
+        "Solaris/Source",
+        "Solaris/ThirdParty/spdlog/include"
     }
 
     postbuildcommands
@@ -44,7 +45,11 @@ project "Solaris"
         defines
         {
             "SLR_PLATFORM_WINDOWS",
-            "SLR_BUILD_DLL"
+            "SLR_BUILD_DLL",
+            
+            -- silence warnings
+            "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+            "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
         }
 
     filter "configurations:Debug"
@@ -70,7 +75,11 @@ project "Playground"
     
     defines
     {
-        "SLR_PLATFORM_WINDOWS"
+        "SLR_PLATFORM_WINDOWS",
+        
+        -- silence warnings
+        "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+        "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
     }
 
     files
@@ -81,7 +90,8 @@ project "Playground"
     
     includedirs
     {
-        "Solaris/Source"
+        "Solaris/Source",
+        "Solaris/ThirdParty/spdlog/include"
     }
 
     links

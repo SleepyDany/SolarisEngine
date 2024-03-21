@@ -3,6 +3,7 @@
 // Solaris applications
 
 #include "Core/Core.h"
+#include "Core/Log.h"
 #include "Core/Application.h"
 
 // Startup
