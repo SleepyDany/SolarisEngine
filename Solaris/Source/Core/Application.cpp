@@ -1,3 +1,4 @@
+#include "slrpch.h"
 #include "Application.h"
 
 namespace Solaris

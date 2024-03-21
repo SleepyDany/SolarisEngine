@@ -1,9 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <filesystem>
-#include <source_location>
-
 #include "Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/pattern_formatter.h"

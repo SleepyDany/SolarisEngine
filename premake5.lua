@@ -20,6 +20,9 @@ project "Solaris"
 
     targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
     objdir ("Intermediate/" .. outputdir .. "/%{prj.name}")
+    
+    pchheader "slrpch.h"
+    pchsource "Solaris/Source/slrpch.cpp"
 
     files
     {
