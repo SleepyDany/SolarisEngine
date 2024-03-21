@@ -13,11 +13,16 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -------
 project "Solaris"
     location "Solaris"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "On"
 
     targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
     objdir ("Intermediate/" .. outputdir .. "/%{prj.name}")
+    
+    pchheader "slrpch.h"
+    pchsource "Solaris/Source/slrpch.cpp"
 
     files
     {
@@ -27,24 +32,23 @@ project "Solaris"
 
     includedirs
     {
-        "Source/"
-    }
-
-    postbuildcommands
-    {
-        "IF NOT EXIST %[Binaries/" .. outputdir .. "/Playground/] mkdir %[Binaries/" .. outputdir .. "/Playground/]",
-        "{COPYFILE} %{cfg.buildtarget.relpath} %[Binaries/" .. outputdir .. "/Playground/]"
+        "Solaris/Source",
+        "Solaris/ThirdParty/spdlog/include"
     }
 
     filter "system:windows"
-		cppdialect "C++20"
-        staticruntime "On"
         systemversion("latest")
 
         defines
         {
             "SLR_PLATFORM_WINDOWS",
-            "SLR_BUILD_DLL"
+            "SLR_BUILD_DLL",
+            -- for dynamic linking .dll and make prj SharedLib, etc
+            -- "SLR_DYNAMIC_LINK"
+            
+            -- silence warnings
+            "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+            "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
         }
 
     filter "configurations:Debug"
@@ -64,13 +68,19 @@ project "Playground"
     location "Playground"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "On"
     
     targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
     objdir ("Intermediate/" .. outputdir .. "/%{prj.name}")
     
     defines
     {
-        "SLR_PLATFORM_WINDOWS"
+        "SLR_PLATFORM_WINDOWS",
+        
+        -- silence warnings
+        "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+        "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
     }
 
     files
@@ -81,7 +91,8 @@ project "Playground"
     
     includedirs
     {
-        "Solaris/Source"
+        "Solaris/Source",
+        "Solaris/ThirdParty/spdlog/include"
     }
 
     links
@@ -90,8 +101,6 @@ project "Playground"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "On"
 		systemversion("latest")
 
     filter "configurations:Debug"

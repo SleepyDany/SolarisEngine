@@ -1,0 +1,3 @@
+[submodule "Solaris/ThirdParty/spdlog"]
+	path = Solaris/ThirdParty/spdlog
+	url = git@github.com:gabime/spdlog.git
