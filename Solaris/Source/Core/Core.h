@@ -19,3 +19,5 @@
 #else
     #define SLR_ASSERT(value, ...)
 #endif // SLR_ENABLE_ASSERT
+
+#define BIT(x) (1 << x)
