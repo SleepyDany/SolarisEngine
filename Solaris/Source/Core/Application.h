@@ -13,5 +13,5 @@ namespace Solaris
         void exec();
     };
 
-    Application* CreateApplication();
+    Application* create_application();
 }

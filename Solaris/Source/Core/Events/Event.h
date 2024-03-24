@@ -11,7 +11,7 @@ namespace Solaris
     {
         None = 0,
         
-        WindowClose,
+        WindowClosed,
         WindowResize,
         WindowFocus,
         WindowLostFocus,
@@ -48,7 +48,7 @@ namespace Solaris
 #define EVENT_CATEGORY_TYPE(category) \
     virtual int get_category_flags() const override { return category; } \
     
-    class Event
+    class SOLARIS_API Event
     {
         friend class EventDispatcher;
         
@@ -60,26 +60,26 @@ namespace Solaris
         virtual const char* get_name() const = 0;
         virtual std::string to_string() const;
         
-        bool is_in_category(EEventCategory category) const;
+        bool is_in_category(EEventCategory _category) const;
 
     private:
         bool b_is_handled = false;
     };
 
-    class EventDispatcher
+    class SOLARIS_API EventDispatcher
     {
         template<class T>
         using EventFunc = std::function<bool(T&)>;
 
     public:
-        EventDispatcher(Event& cur_event);
+        EventDispatcher(Event& _event);
         
         template<class T>
-        bool Dispatch(EventFunc<T> func)
+        bool dispatch(EventFunc<T> _func)
         {
             if (event.get_event_type() == T::get_static_type())
             {
-                event.b_is_handled = func(*static_cast<T*>(&event));
+                event.b_is_handled = _func(*static_cast<T*>(&event));
                 return true;
             }
             return false;
@@ -88,4 +88,9 @@ namespace Solaris
     private:
         Event& event;
     };
+
+    inline std::ostream& operator<<(std::ostream& _stream, const Event& _event)
+    {
+        return _stream << _event.to_string();
+    }
 }

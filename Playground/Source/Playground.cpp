@@ -3,16 +3,11 @@
 class Playground : public Solaris::Application
 {
 public:
-    Playground()
-    {
-    }
-
-    ~Playground()
-    {
-    }
+    Playground() = default;
+    ~Playground() = default;
 };
 
-Solaris::Application* Solaris::CreateApplication()
+Solaris::Application* Solaris::create_application()
 {
     return new Playground();
 }

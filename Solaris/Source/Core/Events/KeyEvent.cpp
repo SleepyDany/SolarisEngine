@@ -1,8 +1,8 @@
 #include "slrpch.h"
 #include "KeyEvent.h"
 
-Solaris::KeyEvent::KeyEvent(int code)
-    : key_code(code)
+Solaris::KeyEvent::KeyEvent(int _code)
+    : key_code(_code)
 {
 }
 
@@ -16,9 +16,9 @@ std::string Solaris::KeyEvent::to_string() const
     return Event::to_string() + " : " + std::to_string(key_code);
 }
 
-Solaris::KeyPressedEvent::KeyPressedEvent(int code, int count)
-    : KeyEvent(code)
-    , repeat_count(count)
+Solaris::KeyPressedEvent::KeyPressedEvent(int _code, int _count)
+    : KeyEvent(_code)
+    , repeat_count(_count)
 {
 }
 
@@ -29,10 +29,10 @@ int Solaris::KeyPressedEvent::get_repeat_count() const
 
 std::string Solaris::KeyPressedEvent::to_string() const
 {
-    return KeyEvent::to_string() + " / " + std::to_string(repeat_count);
+    return KeyEvent::to_string() + " | " + std::to_string(repeat_count);
 }
 
-Solaris::KeyReleasedEvent::KeyReleasedEvent(int code)
-    : KeyEvent(code)
+Solaris::KeyReleasedEvent::KeyReleasedEvent(int _code)
+    : KeyEvent(_code)
 {
 }
